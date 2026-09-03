@@ -450,13 +450,6 @@ h1, h2, h3, h4, h5, h6 {
   max-width: calc(800px + 360px + 3.5rem + 2rem);
 }
 
-.news-row {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0 0 1.75rem;
-}
-.news-row:empty { display: none; }
-
 .home-grid {
   display: flex;
   align-items: flex-start;
@@ -571,7 +564,7 @@ h1, h2, h3, h4, h5, h6 {
   .content-wrapper.is-home {
     max-width: calc(var(--mw) + 5rem);
   }
-  .news-row, .home-grid {
+  .home-grid {
     flex-direction: column;
   }
   .home-rail { max-width: none; width: 100%; position: static; }

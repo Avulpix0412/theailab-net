@@ -284,15 +284,16 @@ class TestWidgetRail:
         assert not failures, f"today-in-ai.js issues: {failures[:15]}"
 
     def test_homepage_has_grid_and_here_card(self, site_root):
-        """index.html must have the two-column grid, the news row, and the This-Week card."""
+        """index.html must have the two-column grid, with Today-in-AI and This-Week stacked in the rail (same pattern as interior pages)."""
         soup_path = site_root / "index.html"
         import bs4
         soup = bs4.BeautifulSoup(soup_path.read_text(encoding="utf-8"), "lxml")
-        assert soup.select_one("#today-in-ai-row") is not None, "index.html missing #today-in-ai-row"
         assert soup.select_one(".home-grid") is not None, "index.html missing .home-grid"
         assert soup.select_one(".home-main") is not None, "index.html missing .home-main"
-        assert soup.select_one(".home-rail") is not None, "index.html missing .home-rail"
-        assert soup.select_one("#here-card") is not None, "index.html missing #here-card"
+        rail = soup.select_one(".home-rail")
+        assert rail is not None, "index.html missing .home-rail"
+        assert rail.select_one("#today-in-ai-card") is not None, ".home-rail missing #today-in-ai-card"
+        assert rail.select_one("#here-card") is not None, ".home-rail missing #here-card"
 
     def test_interior_pages_have_page_rail(self, site_root):
         """Every core/ and weeks/ page must have a .page-rail with hidden today-in-ai and here cards."""

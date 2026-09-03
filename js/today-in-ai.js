@@ -82,24 +82,14 @@
 
   function render(story) {
     if (!story) return;
-
-    var row = document.getElementById("today-in-ai-row");
-    if (row) {
-      var card = document.createElement("div");
-      card.className = "news-card";
-      card.innerHTML = cardHTML(story);
-      row.appendChild(card);
-    }
-
-    var card2 = document.getElementById("today-in-ai-card");
-    if (card2) {
-      card2.innerHTML = cardHTML(story);
-      card2.hidden = false;
-    }
+    var card = document.getElementById("today-in-ai-card");
+    if (!card) return;
+    card.innerHTML = cardHTML(story);
+    card.hidden = false;
   }
 
   function init() {
-    if (!document.getElementById("today-in-ai-row") && !document.getElementById("today-in-ai-card")) {
+    if (!document.getElementById("today-in-ai-card")) {
       return; // page has no widget-rail container at all
     }
 
