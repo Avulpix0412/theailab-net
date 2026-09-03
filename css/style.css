@@ -353,6 +353,14 @@ h1, h2, h3, h4, h5, h6 {
 .session-meta p {
   margin: 0.3rem 0;
 }
+.mp-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
 .session-meta strong {
   color: var(--text);
   font-weight: 700;

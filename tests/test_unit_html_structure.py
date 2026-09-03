@@ -102,6 +102,28 @@ class TestSessionMeta:
         assert not failures, f"Week pages missing .session-meta: {failures[:15]}"
 
 
+class TestMpDot:
+    EXPECTED_TOKEN = {}
+    for _n in range(1, 3): EXPECTED_TOKEN[f"week-{_n:02d}.html"] = "--mp1"
+    for _n in range(3, 6): EXPECTED_TOKEN[f"week-{_n:02d}.html"] = "--mp2"
+    for _n in range(6, 10): EXPECTED_TOKEN[f"week-{_n:02d}.html"] = "--mp3"
+    for _n in range(10, 14): EXPECTED_TOKEN[f"week-{_n:02d}.html"] = "--mp4"
+    for _n in range(14, 16): EXPECTED_TOKEN[f"week-{_n:02d}.html"] = "--final"
+
+    def test_every_week_page_has_mp_dot_with_correct_color_token(self, parsed_pages):
+        """Every week page's .mp-dot must use the CSS var matching its mini-project arc."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            expected = self.EXPECTED_TOKEN.get(path.name)
+            if not expected:
+                continue
+            dot = soup.select_one(".mp-dot")
+            style = dot.get("style", "") if dot else ""
+            if not dot or expected not in style:
+                failures.append(f"{_rel(path)}: expected {expected} in style, got '{style}'")
+        assert not failures, f"MP-dot color mismatches: {failures[:15]}"
+
+
 class TestEthicsThread:
     ETHICS_WEEKS = {"week-03.html", "week-08.html", "week-12.html"}
 
