@@ -30,7 +30,46 @@
 
 <main class="content-wrapper" id="main">
 <div class="page-content">
-<p>Welcome to <strong>IPHS 400: Frontiers in AI</strong> at Kenyon College. This upper-division course is a hands-on study of the AI frontier as it stands in late 2026: <strong>AI software engineering (AI-SWE)</strong>, coordinating autonomous coding agents through a professional software development lifecycle. You build this competency through four mini-projects that stack on each other — your own development environment, agent configuration and custom Skills, agent harness/hook engineering, and a spec-driven SDLC capstone — before applying the whole toolchain to an original interdisciplinary research project.</p>
+<p class="home-lead">A hands-on study of <strong class="home-lead-accent">AI software engineering</strong> — coordinating autonomous coding agents through a professional software development lifecycle.</p>
+
+<div class="map-card">
+<div class="map-title">The Fifteen Weeks</div>
+<svg aria-label="A map of the course's fifteen weeks, grouped into four mini-projects and a final project, with three weeks marked as ethics-thread discussions." class="map-svg" id="journey-map" role="img" viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg">
+<path d="M 25 95 Q 140 40 260 95 T 500 95 T 740 95 T 860 55" fill="none" stroke="#e8e2d8" stroke-width="3"></path>
+<a href="weeks/week-01.html"><circle cx="25" cy="95" data-week="1" fill="var(--mp1)" r="8"></circle></a>
+<a href="weeks/week-02.html"><circle cx="82" cy="66" data-week="2" fill="var(--mp1)" r="8"></circle></a>
+<a href="weeks/week-03.html"><circle cx="150" cy="52" data-week="3" fill="var(--mp2)" r="8"></circle></a>
+<a href="weeks/week-04.html"><circle cx="208" cy="76" data-week="4" fill="var(--mp2)" r="8"></circle></a>
+<a href="weeks/week-05.html"><circle cx="260" cy="95" data-week="5" fill="var(--mp2)" r="8"></circle></a>
+<a href="weeks/week-06.html"><circle cx="318" cy="112" data-week="6" fill="var(--mp3)" r="8"></circle></a>
+<a href="weeks/week-07.html"><circle cx="376" cy="121" data-week="7" fill="var(--mp3)" r="8"></circle></a>
+<a href="weeks/week-08.html"><circle cx="434" cy="112" data-week="8" fill="var(--mp3)" r="8"></circle></a>
+<a href="weeks/week-09.html"><circle cx="500" cy="95" data-week="9" fill="var(--mp3)" r="8"></circle></a>
+<a href="weeks/week-10.html"><circle cx="558" cy="78" data-week="10" fill="var(--mp4)" r="8"></circle></a>
+<a href="weeks/week-11.html"><circle cx="616" cy="67" data-week="11" fill="var(--mp4)" r="8"></circle></a>
+<a href="weeks/week-12.html"><circle cx="674" cy="78" data-week="12" fill="var(--mp4)" r="8"></circle></a>
+<a href="weeks/week-13.html"><circle cx="740" cy="95" data-week="13" fill="var(--mp4)" r="8"></circle></a>
+<a href="weeks/week-14.html"><circle cx="798" cy="76" data-week="14" fill="var(--final)" r="8"></circle></a>
+<a href="weeks/week-15.html"><rect data-week="15" fill="var(--final)" height="22" rx="5" stroke="var(--text-lt)" stroke-width="1.2" width="22" x="846" y="43"></rect></a>
+<rect fill="var(--accent)" height="9" transform="rotate(45 150.5 32.5)" width="9" x="146" y="28"></rect>
+<rect fill="var(--accent)" height="9" transform="rotate(45 434.5 91.5)" width="9" x="430" y="87"></rect>
+<rect fill="var(--accent)" height="9" transform="rotate(45 616.5 46.5)" width="9" x="612" y="42"></rect>
+<text fill="var(--text-lt)" font-family="Quicksand" font-size="11" font-weight="600" x="25" y="120">Wk 1</text>
+<text fill="var(--text-lt)" font-family="Quicksand" font-size="11" font-weight="600" x="790" y="115">Wk 14–15</text>
+<g id="here-marker" style="display:none;"></g>
+</svg>
+<div class="map-legend">
+<span><span class="dot" style="background:var(--mp1)"></span>MP1 — Dev Environment</span>
+<span><span class="dot" style="background:var(--mp2)"></span>MP2 — Agent Config</span>
+<span><span class="dot" style="background:var(--mp3)"></span>MP3 — Harness &amp; Hooks</span>
+<span><span class="dot" style="background:var(--mp4)"></span>MP4 — SDLC Capstone</span>
+<span><span class="dot" style="background:var(--final)"></span>Final Project</span>
+<span class="ethics-legend">◆ Ethics thread</span>
+</div>
+<div class="you-are-here" id="here-label"></div>
+</div>
+
+<p>Welcome to <strong>IPHS 400: Frontiers in AI</strong> at Kenyon College. You build this competency through four mini-projects that stack on each other, before applying the whole toolchain to an original interdisciplinary research project.</p>
 
 <h2>Course Details</h2>
 <div class="table-wrap"><table>
@@ -38,21 +77,11 @@
 <tr><th>Schedule</th><td>Tu/Th, 2:40–4:00 PM</td></tr>
 <tr><th>Location</th><td>Timberlake #5 (Evans Conference Room)</td></tr>
 </table></div>
-
-<div class="section">
-<h2>Quick Links</h2>
-<ul class="item-list">
-<li><a href="core/syllabus.html">Syllabus</a></li>
-<li><a href="core/schedule.html">Schedule</a></li>
-<li><a href="core/assignments.html">Assignments</a></li>
-<li><a href="core/policies.html">Policies</a></li>
-<li><a href="core/about.html">About</a></li>
-</ul>
-</div>
 </div>
 </main>
 <footer class="site-footer">
 <p>IPHS 400: Frontiers in AI · Kenyon College</p>
 </footer>
+<script src="js/journey-map.js"></script>
 </body>
 </html>

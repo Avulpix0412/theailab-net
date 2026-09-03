@@ -254,6 +254,95 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1.5rem 0;
 }
 
+/* Homepage lead sentence */
+.home-lead {
+  font-family: var(--fdisplay);
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 1.35;
+  margin: 0 0 1.5rem;
+}
+.home-lead-accent {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Journey map (homepage only) */
+.map-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  margin: 0 0 2rem;
+}
+.map-title {
+  font-family: var(--fb);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-lt);
+  margin-bottom: 0.9rem;
+}
+.map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.map-svg a circle,
+.map-svg a rect {
+  transition: transform 0.15s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.map-svg a:hover circle,
+.map-svg a:hover rect {
+  transform: scale(1.35);
+}
+.here-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.9;
+  animation: journey-pulse 2s ease-in-out infinite;
+}
+.here-ring.next {
+  stroke-dasharray: 3 3;
+  animation: none;
+  opacity: 0.7;
+}
+@keyframes journey-pulse {
+  0%, 100% { r: 13; opacity: 0.9; }
+  50% { r: 17; opacity: 0.35; }
+}
+.map-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-lt);
+}
+.map-legend .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+.map-legend .ethics-legend {
+  color: var(--accent);
+}
+.you-are-here {
+  font-family: var(--fb);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent-dk);
+  margin-top: 0.75rem;
+}
+
 .session-meta {
   font-family: var(--fb);
   font-size: 15px;
