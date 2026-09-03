@@ -21,7 +21,6 @@
 <nav class="main-nav"><ul>
 <li><a href="index.html" class="active">Home</a></li>
 <li><a href="core/syllabus.html">Syllabus</a></li>
-<li><a href="core/schedule.html">Schedule</a></li>
 <li><a href="core/assignments.html">Assignments</a></li>
 <li><a href="core/policies.html">Policies</a></li>
 <li><a href="core/about.html">About</a></li>
@@ -31,6 +30,11 @@
 
 <main class="content-wrapper" id="main">
 <div class="page-content">
+
+<div class="news-row" id="today-in-ai-row"></div>
+
+<div class="home-grid">
+<div class="home-main">
 <p class="home-lead">A hands-on study of <strong class="home-lead-accent">AI software engineering</strong> — coordinating autonomous coding agents through a professional software development lifecycle.</p>
 
 <div class="map-card">
@@ -52,9 +56,9 @@
 <a href="weeks/week-13.html"><circle cx="740" cy="95" data-week="13" fill="var(--mp4)" r="8"><title>Week 13: Full-Cycle Capstone Work Session and MP4 Presentations</title></circle></a>
 <a href="weeks/week-14.html"><circle cx="798" cy="76" data-week="14" fill="var(--final)" r="8"><title>Week 14: Final Project Work Session and Poster Development</title></circle></a>
 <a href="weeks/week-15.html"><rect data-week="15" fill="var(--final)" height="22" rx="5" stroke="var(--text-lt)" stroke-width="1.2" width="22" x="846" y="43"><title>Week 15: Final Project Poster Presentations</title></rect></a>
-<rect fill="var(--accent)" height="9" transform="rotate(45 150.5 32.5)" width="9" x="146" y="28"></rect>
-<rect fill="var(--accent)" height="9" transform="rotate(45 434.5 91.5)" width="9" x="430" y="87"></rect>
-<rect fill="var(--accent)" height="9" transform="rotate(45 616.5 46.5)" width="9" x="612" y="42"></rect>
+<rect fill="var(--accent)" height="9" transform="rotate(45 150.5 25)" width="9" x="146" y="20.5"></rect>
+<rect fill="var(--accent)" height="9" transform="rotate(45 434.5 84)" width="9" x="430" y="79.5"></rect>
+<rect fill="var(--accent)" height="9" transform="rotate(45 674.5 51)" width="9" x="670" y="46.5"></rect>
 <text fill="var(--text-lt)" font-family="Quicksand" font-size="11" font-weight="600" x="25" y="120">Wk 1</text>
 <text fill="var(--text-lt)" font-family="Quicksand" font-size="11" font-weight="600" x="790" y="115">Wk 14–15</text>
 <g id="here-marker" style="display:none;"></g>
@@ -67,7 +71,6 @@
 <span><span class="dot" style="background:var(--final)"></span>Final Project</span>
 <span class="ethics-legend">◆ Ethics thread</span>
 </div>
-<div class="you-are-here" id="here-label"></div>
 <a class="map-schedule-link" href="core/schedule.html">Full schedule with dates &rarr;</a>
 </div>
 
@@ -80,12 +83,20 @@
 <tr><th>Location</th><td>Timberlake #5 (Evans Conference Room)</td></tr>
 </table></div>
 </div>
+
+<aside class="home-rail">
+<div class="here-card" id="here-card" hidden=""></div>
+</aside>
+</div>
+
+</div>
 </main>
 <footer class="site-footer">
 <p>IPHS 400: Frontiers in AI · Kenyon College</p>
 </footer>
 <script src="js/journey-map.js"></script>
 <script src="js/nav-wave.js"></script>
+<script src="js/today-in-ai.js"></script>
 <script src="js/theme.js"></script>
 </body>
 </html>
