@@ -463,12 +463,11 @@ h1, h2, h3, h4, h5, h6 {
   gap: 3.5rem;
 }
 .home-main {
-  flex: 0 0 auto;
-  width: 800px;
+  flex: 1 1 480px;
+  max-width: 800px;
 }
 .home-rail {
-  flex: 1 1 auto;
-  max-width: 360px;
+  flex: 0 0 360px;
   position: sticky;
   top: 1.5rem;
 }
