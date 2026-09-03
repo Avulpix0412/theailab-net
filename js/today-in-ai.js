@@ -59,9 +59,14 @@
 
   function fetchTodayStory() {
     var todayStartEpoch = Math.floor(new Date().setHours(0, 0, 0, 0) / 1000);
+    // The "search" endpoint (relevance/points/comments sort) is used
+    // deliberately instead of "search_by_date" (chronological) — an earlier
+    // version used search_by_date and, combined with a modest hitsPerPage,
+    // only ever sampled the handful of stories posted in the last few
+    // minutes (near-zero points), never the day's actual top story.
     var api =
-      "https://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i%3E" +
-      todayStartEpoch + "&hitsPerPage=50";
+      "https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i%3E" +
+      todayStartEpoch + "&hitsPerPage=100";
     return fetch(api)
       .then(function (res) {
         if (!res.ok) throw new Error("HN API error " + res.status);
@@ -74,8 +79,7 @@
     return (
       '<div class="news-label">Today in AI</div>' +
       '<p class="news-headline">“' + story.title + '”</p>' +
-      '<a class="news-source" href="' + story.url + '" target="_blank" rel="noopener">via Hacker News, ' +
-      story.points + ' points &rarr;</a>' +
+      '<p class="news-source">via Hacker News</p>' +
       '<p class="news-caption">The field doesn’t pause for a syllabus — here’s today’s version of it, next to where you are in the course.</p>'
     );
   }
