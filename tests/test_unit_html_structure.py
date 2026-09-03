@@ -51,6 +51,65 @@ class TestCSSLink:
         assert not failures, f"CSS link issues: {failures[:15]}"
 
 
+class TestFavicon:
+    def test_all_pages_link_to_resolvable_favicon(self, parsed_pages):
+        """Every page must have a <link rel='icon'> to a resolvable favicon file."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            icon = soup.find("link", rel="icon")
+            if not icon or not icon.get("href"):
+                failures.append(f"{_rel(path)}: no <link rel='icon'>")
+                continue
+            target = (path.parent / icon["href"]).resolve()
+            if not target.exists():
+                failures.append(f"{_rel(path)}: favicon href '{icon['href']}' does not resolve")
+        assert not failures, f"Favicon issues: {failures[:15]}"
+
+
+class TestMetaDescription:
+    def test_all_pages_have_nonempty_meta_description(self, parsed_pages):
+        """Every page must have a non-empty <meta name='description'>."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            meta = soup.find("meta", attrs={"name": "description"})
+            if not meta or not meta.get("content", "").strip():
+                failures.append(f"{_rel(path)}: missing or empty meta description")
+        assert not failures, f"Meta description issues: {failures[:15]}"
+
+
+class TestTableWrap:
+    def test_all_tables_have_table_wrap_ancestor(self, parsed_pages):
+        """Every <table> must have an ancestor <div class="table-wrap"> for horizontal-scroll safety."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            for table in soup.find_all("table"):
+                if not table.find_parent("div", class_="table-wrap"):
+                    failures.append(_rel(path))
+                    break
+        assert not failures, f"Tables missing .table-wrap ancestor: {failures[:15]}"
+
+
+class TestSkipLink:
+    def test_all_pages_have_skip_link_as_first_body_child(self, parsed_pages):
+        """Every page's <body> must start with an <a class="skip-link" href="#main">."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            body = soup.find("body")
+            first = body.find(True) if body else None
+            if not first or "skip-link" not in first.get("class", []) or first.get("href") != "#main":
+                failures.append(f"{_rel(path)}: body's first child is not a skip-link to #main")
+        assert not failures, f"Skip-link issues: {failures[:15]}"
+
+    def test_all_pages_have_main_with_id(self, parsed_pages):
+        """Every page's <main class="content-wrapper"> must have id="main"."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            main = soup.select_one("main.content-wrapper")
+            if not main or main.get("id") != "main":
+                failures.append(f"{_rel(path)}: main.content-wrapper missing id='main'")
+        assert not failures, f"Main-id issues: {failures[:15]}"
+
+
 class TestHeaderFooterHero:
     def test_all_pages_have_site_header(self, parsed_pages):
         """Every page must contain a <header class="site-header">."""
