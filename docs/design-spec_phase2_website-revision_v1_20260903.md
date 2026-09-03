@@ -40,7 +40,7 @@ These are working well and any Phase 2 direction should build on them, not repla
 2. **The narrow reading column** (`--mw: 640px`) — appropriate for dense syllabus/policy prose; don't widen it just to "fill space."
 3. **The asymmetric left-gutter layout** (`--col-left`) — already a distinctive, non-generic layout decision worth keeping and possibly reinforcing rather than discarding for a centered/boxed layout.
 4. **Breadcrumbs and consistent header/nav/footer** — necessary wayfinding across 22 pages; Phase 2 should restyle, not remove.
-5. **No images / no JS** — keeps the site fast and simple; any Phase 2 direction should stay within static HTML/CSS (per the user's explicit constraint).
+5. **No images / no JS** — keeps the site fast and simple; any Phase 2 direction should stay within static HTML/CSS wherever possible. (Revised in Part 3b: the user later approved one narrow, explicit JS exception for a current-week indicator — see P2-5 — but this remains the default constraint everywhere else.)
 6. **The existing per-page test suite's structural guarantees** (DOCTYPE, title suffix, nav consistency, etc.) — Phase 2 changes must not break these; new visual elements need new tests of their own (see §4 below), not a weakening of existing ones.
 
 ---
@@ -100,15 +100,87 @@ This is a synthesis, not a fourth direction — it's Direction A doing the load-
 
 ---
 
+## Part 3b — Finalized Decisions (after user design review, 2026-09-03)
+
+Following review of live typography/color previews and a homepage mockup (screenshots, not committed to the repo), the user finalized the following specifics on top of the Part 3 recommendation. These supersede any general placeholders in Part 4 below where they conflict.
+
+**Typography (Direction A, made concrete):**
+- Headings / display text: **Fraunces** (a soft, characterful display serif), replacing the current `--fh` (Hoefler Text/Garamond) for headings only.
+- Body prose: keep **Newsreader** (a book-style serif close in spirit to the current Hoefler Text/Garamond stack) — this preserves the "preserve" list's serif/sans pairing rather than abandoning it.
+- Navigation / UI / labels: **Quicksand** (rounded sans), set to **bold weight** (the user specifically asked for a bolder nav than the current `.main-nav li a` weight).
+- Both are Google Fonts — this is the one deliberate exception to a fully system-font stack; loaded via a single `<link>` to `fonts.googleapis.com`, no additional build tooling.
+
+**Color tokens (replacing the current `--accent`/`--accent-dk` WordPress blue):**
+
+| Token | Hex | Use |
+|---|---|---|
+| `--bg` | `#faf7f2` | page background (warm off-white) |
+| `--text` | `#2a2622` | body text (warm near-black) |
+| `--text-lt` | `#8a8378` | secondary text |
+| `--accent` | `#c2703f` | links, active nav, "here" markers — a muted warm terracotta, chosen as a deliberate alternative to the old WordPress blue and loosely inspired by (not copied from) Claude's own orange/gray pairing per the user's reference |
+| `--border` | `#e8e2d8` | rules, table borders, card borders |
+
+**Secondary "kusumi-iro" palette** (低饱和度・中高明度・灰调, i.e. Japanese dusty/muted pastel — explicitly *not* bright candy-macaron colors), used only as small-area markers for the five course-arc segments (never as large background washes):
+
+| Segment | Name | Hex |
+|---|---|---|
+| MP1 — Dev Environment | 桜鼠 dusty rose | `#c3a89f` |
+| MP2 — Agent Config | 鶯 moss | `#a3ac93` |
+| MP3 — Harness & Hooks | 芥子 mustard | `#c4ab77` |
+| MP4 — SDLC Capstone | 藤鼠 dusty violet | `#a49cb0` |
+| Final Project | 水鼠 dusty teal | `#9bb0b5` |
+
+Target range for this secondary palette: saturation ~28–35%, lightness ~60–68% — muted by graying the hue, not by mixing toward white, which is what keeps it reading as "considered/editorial" rather than "pastel/candy."
+
+**Homepage layout (finalized order, top to bottom):**
+1. Header: site title/tagline, bold Quicksand nav.
+2. One-line intellectual framing sentence (existing course-description language, per P2-4).
+3. **The 15-week journey map, immediately below the framing line** — the user was explicit this should lead the page, not be buried after prose.
+4. A trimmed welcome paragraph (shorter than today's, since the map now carries some of that structural information).
+5. Course Details table.
+6. **No "Quick Links" section** — the user flagged this as pure duplication of the top nav (same 5 links) that added page length with no added value. It is removed, not relocated. (This revises P2-4 below, which had originally proposed keeping the quick-links list lower on the page.)
+
+**Journey map component — clickable, not decorative (revises P2-5):**
+- Each of the 15 week markers (and the Final Project marker) is a real link (`<a href="weeks/week-NN.html">` wrapping the visual node), not a static illustration. Clicking navigates like any other site link.
+- Rendered as an inline SVG (geometric path + circular/square nodes in the five palette colors above), grouped by the same five arcs as `core/schedule.html`. No character, mascot, or illustrative artwork — nodes and a connecting line only, per the "restrained" direction the user chose over a literal game-map illustration.
+- The 3 ethics-thread weeks (3, 8, 12) get a small diamond marker in the accent orange, distinct from the circular week nodes.
+
+**"You are here" current-week indicator — approved JS exception:**
+The user requested a feature that reads the current date and highlights the current week on the map. This cannot be done in CSS/HTML alone, so **this is a deliberate, scoped exception** to the site's otherwise-JS-free constraint (see Part 5). Specification:
+- A small vanilla JS snippet (no framework, no external library) on `index.html` only.
+- A hardcoded array of each week's actual first-session date (already extracted from `weeks/week-01.html` through `week-15.html` — see table below), used to compute the current week as "the highest-numbered week whose start date is on or before today."
+- **Recess-awareness:** a second hardcoded list of recess date ranges (from the Kenyon College 2026–27 academic calendar the user supplied) suppresses the "current week" claim during breaks and instead shows "On break (Break Name) — next: Week N", with a dashed (not pulsing) ring on the *upcoming* week's node:
+
+  | Recess | Dates |
+  |---|---|
+  | October Break | 2026-10-08 to 2026-10-09 |
+  | Thanksgiving Recess | 2026-11-21 to 2026-11-29 |
+
+  | Week | First session date | Week | First session date |
+  |---|---|---|---|
+  | 1 | 2026-08-27 | 9 | 2026-10-20 |
+  | 2 | 2026-09-01 | 10 | 2026-10-27 |
+  | 3 | 2026-09-08 | 11 | 2026-11-03 |
+  | 4 | 2026-09-15 | 12 | 2026-11-10 |
+  | 5 | 2026-09-22 | 13 | 2026-11-17 |
+  | 6 | 2026-09-29 | 14 | 2026-12-01 |
+  | 7 | 2026-10-06 | 15 | 2026-12-08 |
+  | 8 | 2026-10-13 | | |
+
+- On a non-recess day, the current week's node gets a pulsing solid accent-color ring plus a text label ("You are here — Week N").
+- Verified in a throwaway mockup (not committed) against both a normal day (2026-09-03 → correctly resolved to Week 2) and simulated recess dates (2026-10-08 → October Break, next Week 8; 2026-11-25 → Thanksgiving Recess, next Week 14) — both matched the official calendar.
+
+---
+
 ## Part 4 — Phase 2 Spec: Tasks, Acceptance Criteria, and QA
 
 Ordered for implementation. Each task lists what "done" means and how it would be tested/verified — following this repo's existing test-first convention from Phase 1. **Do not implement any of this without separate sign-off** — this table is what gets reviewed, not executed, in this pass.
 
 ### P2-1 — Establish the type scale and color tokens
 
-**Task:** Define a refined set of CSS custom properties: a considered accent color (replacing `--accent`/`--accent-dk`/`--primary`, which currently duplicate a stock WordPress blue), a small-caps or letter-spaced treatment for section/meta labels, and a clarified type scale (the current `h2`/`h3`/`h4` sizes — 36/28/22px — can stay; audit whether `--mww: 1168px` is used anywhere, since a stray unused token was already flagged in Phase 1's dead-CSS finding and a new design pass shouldn't reintroduce the same problem).
+**Task:** Replace `--fh`/`--fb` font stacks with Fraunces (headings/display) + Newsreader (body) + Quicksand (nav/UI, bold weight), loaded via one Google Fonts `<link>`. Replace `--accent`/`--accent-dk`/`--primary` with the finalized token set from Part 3b (`--bg`, `--text`, `--text-lt`, `--accent`, `--border`), plus the five-color kusumi-iro secondary palette as new tokens (`--mp1` through `--mp4`, `--final`). Audit whether `--mww: 1168px` is used anywhere (a stray unused token was already flagged in Phase 1's dead-CSS finding — a new design pass shouldn't reintroduce the same problem).
 
-**Acceptance criteria:** New tokens defined once in `:root`; every existing use of the old blue is migrated (no hardcoded hex colors left outside `:root`); a manual side-by-side screenshot of 3 representative pages (home, a week page, policies) at both desktop and mobile widths shows a single coherent palette.
+**Acceptance criteria:** New tokens defined once in `:root` with the exact hex values from Part 3b; every existing use of the old blue is migrated (no hardcoded hex colors left outside `:root`); nav links render in Quicksand bold; a manual side-by-side screenshot of 3 representative pages (home, a week page, policies) at both desktop and mobile widths shows a single coherent palette matching the approved preview.
 
 **QA:** Run the full Phase 1 + Phase 2 test suite; visually diff before/after screenshots (per Part I.2 of the setup manual's browser-check step) rather than relying on tests alone — color/type changes are exactly the kind of thing automated tests can't catch.
 
@@ -130,19 +202,26 @@ Ordered for implementation. Each task lists what "done" means and how it would b
 
 ### P2-4 — Homepage reframe
 
-**Task:** Rewrite the homepage's *visual presentation* (not its factual content) to lead with an intellectual framing sentence already present in the syllabus/about content ("AI software engineering... coordinating autonomous coding agents through a professional software development lifecycle"), followed by the course-map component (P2-5) before the current course-details table and quick-links list, which move lower on the page rather than being removed.
+**Task:** Rewrite the homepage's *visual presentation* (not its factual content) per the finalized order in Part 3b: header → one-line intellectual framing sentence (already present in the syllabus/about content, e.g. "AI software engineering... coordinating autonomous coding agents through a professional software development lifecycle") → the course-map component (P2-5), placed immediately below the framing line, not lower on the page → a trimmed welcome paragraph → Course Details table. **The Quick Links section is removed, not relocated** — it duplicated the top nav's 5 links with no added value.
 
-**Acceptance criteria:** No new claims about the course appear anywhere on the homepage that aren't already present verbatim (or a light paraphrase) in `index.html`, `core/about.html`, or `core/syllabus.html`; the course-details table and quick-links list still exist, just reordered.
+**Acceptance criteria:** No new claims about the course appear anywhere on the homepage that aren't already present verbatim (or a light paraphrase) in `index.html`, `core/about.html`, or `core/syllabus.html`; the course-details table still exists; the map appears before the welcome paragraph, not after; no Quick Links list remains anywhere on the page.
 
-**QA:** Diff the homepage's text content against existing pages to confirm no fabricated claims; run existing `test_unit_html_structure.py` checks (hero/h1 presence, etc.) to confirm the page still passes structural tests after reordering.
+**QA:** Diff the homepage's text content against existing pages to confirm no fabricated claims; run existing `test_unit_html_structure.py` checks (hero/h1 presence, etc.) to confirm the page still passes structural tests after reordering; add a test asserting the homepage's `.page-content` has no list of links duplicating the nav.
 
-### P2-5 — 15-week course map component (homepage + schedule only)
+### P2-5 — 15-week course map component (homepage only) + current-week indicator
 
-**Task:** Build a compact visual timeline/map grouped by the four Mini-Project arcs + Final Project (matching the existing grouping already in `core/schedule.html`'s `<div class="section">` blocks), marking the 3 ethics-thread weeks distinctly, using pure CSS/HTML (a flex or grid layout of styled `<a>` elements per week, no SVG library, no JS). Reuse this same component on both the homepage and `core/schedule.html` rather than building two different versions.
+**Task:** Build the journey map as an inline SVG (not a CSS flex/grid grid of link cards — revised from the original plan now that the map is a real illustrated path, not a table-like layout) grouped by the four Mini-Project arcs + Final Project, using the exact five-arc coloring and ethics-thread diamond markers specified in Part 3b. Each week node is a real `<a href="weeks/week-NN.html">`-wrapped SVG element — clicking it navigates to that week's page. Reuse this component on the homepage only (not `core/schedule.html`, which keeps its existing grouped-list structure per Phase 1/Phase 2 scope — a second map placement is not in scope for this pass).
 
-**Acceptance criteria:** The map's week groupings and labels match `core/schedule.html`'s existing section headings exactly (source of truth: the schedule page's existing `<h2>` text per group); all 15 week links resolve (already covered by the existing link-resolution test, extend it to also crawl the new component); the map is legible and doesn't require horizontal scroll at any tested breakpoint (desktop, tablet, mobile).
+Additionally implement the "you are here" current-week indicator specified in Part 3b: a small vanilla-JS snippet, scoped to `index.html` only, using the hardcoded week-start-date and recess-date tables from Part 3b.
 
-**QA:** Extend `test_integration_links.py`-style checks to include links inside the new map component; manual responsive check at 375px, 768px, 1024px+ widths in Chrome (per the setup manual's browser-check convention); confirm no layout overflow (this is the same overflow risk class as Phase 1's table-wrap finding — the map is effectively a wide, structured layout and deserves the same scrutiny).
+**Acceptance criteria:**
+- The map's five arc groupings and colors match Part 3b's table exactly; all 15 week links plus the Final Project link resolve.
+- The map is legible and doesn't require horizontal scroll at any tested breakpoint (desktop, tablet, mobile).
+- On a non-recess day, exactly one node shows the pulsing "here" ring, matching the week whose start date is the latest one on or before today.
+- On a recess day (per the two ranges in Part 3b), no node shows a pulsing ring; the next upcoming week's node shows a dashed ring instead, and the text label reads "On break (Recess Name) — next: Week N".
+- Before the semester start date (2026-08-27), no marker is shown at all (no false "Week 1" claim).
+
+**QA:** Extend `test_integration_links.py`-style checks to include the 15 links inside the new map component; manual responsive check at 375px, 768px, 1024px+ widths in Chrome; confirm no layout overflow. For the JS date logic specifically, automated pytest can't exercise browser JS — instead, manually verify via the browser console (`currentWeekNumber('2026-10-08')`, etc., as done in the mockup review) against at least: a normal mid-semester day, both recess ranges, and a day before 2026-08-27; a code-review pass should also confirm the hardcoded date tables match the live `weeks/week-NN.html` date lines and the official Kenyon academic calendar, since this data will silently go stale if either source changes and this file isn't updated to match.
 
 ### P2-6 — Week-page structural labels (Question/Read/Discuss/Reflect-derived)
 
@@ -173,6 +252,6 @@ Ordered for implementation. Each task lists what "done" means and how it would b
 ## Part 5 — What This Spec Deliberately Does Not Do
 
 - Does not touch any factual course content (dates, weights, policies, learning outcomes) anywhere.
-- Does not add JavaScript, a build step, or an external framework/library — every task above is achievable in static HTML + CSS, consistent with the existing site and the user's explicit constraint.
+- Does not add a build step or an external framework/library. **One narrow exception to "no JavaScript":** the "you are here" current-week indicator (P2-5) requires a small vanilla-JS snippet on `index.html`, since reading today's date is impossible in CSS/HTML alone — this was raised and explicitly approved by the user during design review (Part 3b) as worth breaking the otherwise-static-only constraint for. It is scoped to one page, has no dependencies, and every other task remains static HTML + CSS.
 - Does not change the 22-page site structure, URLs, or navigation item count.
 - Does not implement anything — this document is for review. Implementation should be scoped into its own follow-up (a Phase 2 execution pass, analogous to Part I of the setup manual) only after the professor/reviewer has approved a direction.
