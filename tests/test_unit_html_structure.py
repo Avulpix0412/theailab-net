@@ -295,7 +295,7 @@ class TestWidgetRail:
         assert soup.select_one("#here-card") is not None, "index.html missing #here-card"
 
     def test_interior_pages_have_page_rail(self, site_root):
-        """Every core/ and weeks/ page must have a .page-rail with a hidden today-in-ai card."""
+        """Every core/ and weeks/ page must have a .page-rail with hidden today-in-ai and here cards."""
         failures = []
         interior = sorted((site_root / "core").glob("*.html")) + sorted((site_root / "weeks").glob("*.html"))
         import bs4
@@ -305,12 +305,27 @@ class TestWidgetRail:
             if not rail:
                 failures.append(f"{_rel(path)}: missing .page-rail")
                 continue
-            card = rail.select_one("#today-in-ai-card")
-            if not card:
-                failures.append(f"{_rel(path)}: .page-rail missing #today-in-ai-card")
-            elif not card.has_attr("hidden"):
-                failures.append(f"{_rel(path)}: #today-in-ai-card not hidden by default")
+            for card_id in ("today-in-ai-card", "here-card"):
+                card = rail.select_one("#" + card_id)
+                if not card:
+                    failures.append(f"{_rel(path)}: .page-rail missing #{card_id}")
+                elif not card.has_attr("hidden"):
+                    failures.append(f"{_rel(path)}: #{card_id} not hidden by default")
         assert not failures, f"Interior page rail issues: {failures[:15]}"
+
+    def test_all_pages_load_course_calendar_and_this_week_card_js(self, parsed_pages):
+        """course-calendar.js and this-week-card.js must be present and resolvable on every page."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            for name in ("course-calendar.js", "this-week-card.js"):
+                script = soup.find("script", src=lambda s, n=name: s and s.endswith("js/" + n))
+                if not script:
+                    failures.append(f"{_rel(path)}: missing js/{name}")
+                    continue
+                target = (path.parent / script["src"]).resolve()
+                if not target.exists():
+                    failures.append(f"{_rel(path)}: {name} src '{script['src']}' does not resolve")
+        assert not failures, f"course-calendar.js/this-week-card.js issues: {failures[:15]}"
 
 
 class TestContentNotEmpty:
