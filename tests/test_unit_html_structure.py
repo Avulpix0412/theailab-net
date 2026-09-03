@@ -89,6 +89,31 @@ class TestTableWrap:
         assert not failures, f"Tables missing .table-wrap ancestor: {failures[:15]}"
 
 
+class TestSessionMeta:
+    WEEK_FILES = {f"week-{i:02d}.html" for i in range(1, 16)}
+
+    def test_every_week_page_has_session_meta_wrapper(self, parsed_pages):
+        """Every weeks/week-NN.html must wrap its date + MP-arc lines in .session-meta."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            if path.name in self.WEEK_FILES and path.parent.name == "weeks":
+                if not soup.select_one(".session-meta"):
+                    failures.append(_rel(path))
+        assert not failures, f"Week pages missing .session-meta: {failures[:15]}"
+
+
+class TestEthicsThread:
+    ETHICS_WEEKS = {"week-03.html", "week-08.html", "week-12.html"}
+
+    def test_ethics_thread_appears_exactly_on_weeks_3_8_12(self, parsed_pages):
+        """Exactly weeks 3, 8, and 12 have an <aside class="ethics-thread">."""
+        found = {
+            path.name for path, _, soup in parsed_pages
+            if soup.select_one("aside.ethics-thread")
+        }
+        assert found == self.ETHICS_WEEKS, f"ethics-thread found on {found}, expected {self.ETHICS_WEEKS}"
+
+
 class TestSkipLink:
     def test_all_pages_have_skip_link_as_first_body_child(self, parsed_pages):
         """Every page's <body> must start with an <a class="skip-link" href="#main">."""

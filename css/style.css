@@ -1,19 +1,25 @@
-/* Twenty Nineteen-faithful theme for Programming Humanity
-   Design tokens measured from programminghumanity.wordpress.com (2026-08-25):
-   serif body 22px/1.8, bold sans headings, accent blue #0073aa.
-   Blog/post-specific rules from the original theme (featured-image hero,
-   entry meta, badges, etc.) were removed — this site has no such pages. */
+/* Phase 2 design pass (2026-09-03): Fraunces/Newsreader/Quicksand type system,
+   warm terracotta accent, and a five-color "kusumi-iro" (muted Japanese
+   pastel) palette for the five course-arc segments (MP1-4 + Final Project).
+   Structural layout inherited from the original Twenty Nineteen-faithful
+   port (narrow reading column, asymmetric left gutter). */
 
 :root {
-  --bg: #fff;
-  --text: #111;
-  --text-lt: #767676;
-  --accent: #0073aa;
-  --accent-dk: #005177;
-  --border: #e0e0e0;
-  --code-bg: #f5f5f5;
-  --fh: "NonBreakingSpaceOverride", "Hoefler Text", Garamond, "Times New Roman", serif;
-  --fb: "NonBreakingSpaceOverride", -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --bg: #faf7f2;
+  --text: #2a2622;
+  --text-lt: #8a8378;
+  --accent: #c2703f;
+  --accent-dk: #a25a30;
+  --border: #e8e2d8;
+  --code-bg: #f3ede3;
+  --mp1: #c3a89f;   /* MP1 - Dev Environment: dusty rose */
+  --mp2: #a3ac93;   /* MP2 - Agent Config: moss */
+  --mp3: #c4ab77;   /* MP3 - Harness & Hooks: mustard */
+  --mp4: #a49cb0;   /* MP4 - SDLC Capstone: dusty violet */
+  --final: #9bb0b5; /* Final Project: dusty teal */
+  --fdisplay: "Fraunces", Georgia, serif;
+  --fh: "Newsreader", "Hoefler Text", Garamond, "Times New Roman", serif;
+  --fb: "Quicksand", -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   --mw: 640px;             /* text column measure */
   --mww: 1168px;
   --col-left: calc(8.33vw + 28px);  /* left offset of the content column */
@@ -47,9 +53,9 @@ img {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--fb);      /* bold sans headings (Twenty Nineteen) */
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--fdisplay);
+  font-weight: 600;
+  letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
@@ -98,10 +104,10 @@ h1, h2, h3, h4, h5, h6 {
   column-gap: 0.75rem;
 }
 .site-title {
-  font-family: var(--fb);
+  font-family: var(--fdisplay);
   font-size: 24.75px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   margin: 0;
   line-height: 1.2;
 }
@@ -183,10 +189,10 @@ h1, h2, h3, h4, h5, h6 {
   padding-right: 2rem;
 }
 .hero h1 {
-  font-family: var(--fb);
+  font-family: var(--fdisplay);
   font-size: 49.5px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   line-height: 1.2;
   margin: 0;
   max-width: none;
@@ -232,7 +238,8 @@ h1, h2, h3, h4, h5, h6 {
 .page-content h2,
 .page-content h3,
 .page-content h4 {
-  font-family: var(--fb);
+  font-family: var(--fdisplay);
+  font-weight: 600;
   color: var(--text);
   margin-top: 2rem;
   margin-bottom: 0.8rem;
@@ -245,6 +252,45 @@ h1, h2, h3, h4, h5, h6 {
 
 .page-content p {
   margin: 1.5rem 0;
+}
+
+.session-meta {
+  font-family: var(--fb);
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  color: var(--text-lt);
+  margin: 1.5rem 0;
+}
+.session-meta p {
+  margin: 0.3rem 0;
+}
+.session-meta strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.session-meta a {
+  color: var(--accent);
+}
+
+.ethics-thread {
+  border-left: 3px solid var(--accent);
+  background: var(--code-bg);
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+}
+.ethics-thread .ethics-label {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-dk);
+  margin-bottom: 0.4rem;
+}
+.ethics-thread p {
+  margin: 0;
 }
 
 .page-content blockquote {
@@ -334,7 +380,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 2.5rem;
 }
 .section h2 {
-  font-family: var(--fb);
+  font-family: var(--fdisplay);
+  font-weight: 600;
   color: var(--text);
   font-size: 32px;
 }
