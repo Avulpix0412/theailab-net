@@ -465,20 +465,22 @@ h1, h2, h3, h4, h5, h6 {
   top: 1.5rem;
 }
 
-/* Interior-page rail (sits alongside .page-main, inside .content-wrapper.has-rail) */
+/* Interior-page rail (sits alongside .page-main, inside .content-wrapper.has-rail).
+   Same column split as the homepage's .home-main/.home-rail: rail fixed at
+   360px, main flexes between 480-800px so the rail never gets squeezed at
+   common laptop widths (1150-1400px). */
 .content-wrapper.has-rail {
   display: flex;
   align-items: flex-start;
-  gap: 3rem;
-  max-width: calc(var(--mw) + 4rem + 320px + 3rem);
+  gap: 3.5rem;
+  max-width: calc(800px + 360px + 3.5rem + 2rem);
 }
 .content-wrapper.has-rail .page-main {
-  flex: 0 0 auto;
-  width: calc(var(--mw) + 4rem);
+  flex: 1 1 480px;
+  max-width: 800px;
 }
 .page-rail {
-  flex: 1 1 auto;
-  max-width: 320px;
+  flex: 0 0 360px;
   position: sticky;
   top: 1.5rem;
 }
