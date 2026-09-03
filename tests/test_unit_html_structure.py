@@ -215,6 +215,47 @@ class TestNoLeftoverBranding:
         assert not failures, f"Pages with stub/placeholder strings: {failures[:15]}"
 
 
+class TestThemeToggle:
+    def test_all_pages_load_theme_init_before_stylesheet(self, parsed_pages):
+        """theme-init.js must be present and precede the style.css link (avoids a flash of the wrong theme)."""
+        failures = []
+        for path, text, soup in parsed_pages:
+            init_script = soup.find("script", src=lambda s: s and s.endswith("js/theme-init.js"))
+            style_link = soup.find("link", rel="stylesheet", href=lambda h: h and "style.css" in h)
+            if not init_script:
+                failures.append(f"{_rel(path)}: missing theme-init.js")
+                continue
+            if not style_link or text.index(str(init_script)) > text.index(str(style_link)):
+                failures.append(f"{_rel(path)}: theme-init.js does not precede style.css link")
+        assert not failures, f"theme-init.js ordering issues: {failures[:15]}"
+
+    def test_all_pages_load_theme_js(self, parsed_pages):
+        """theme.js (button wiring) must be present and resolvable on every page."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            script = soup.find("script", src=lambda s: s and s.endswith("js/theme.js") and not s.endswith("theme-init.js"))
+            if not script:
+                failures.append(f"{_rel(path)}: missing js/theme.js")
+                continue
+            target = (path.parent / script["src"]).resolve()
+            if not target.exists():
+                failures.append(f"{_rel(path)}: theme.js src '{script['src']}' does not resolve")
+        assert not failures, f"theme.js issues: {failures[:15]}"
+
+    def test_all_pages_have_toggle_and_lock_buttons(self, parsed_pages):
+        """Every page's nav must contain the theme-toggle button and a hidden theme-lock button."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            toggle = soup.select_one("#theme-toggle")
+            lock = soup.select_one("#theme-lock")
+            if not toggle:
+                failures.append(f"{_rel(path)}: missing #theme-toggle")
+                continue
+            if not lock or lock.has_attr("hidden") is False:
+                failures.append(f"{_rel(path)}: #theme-lock missing or not hidden by default")
+        assert not failures, f"Theme toggle/lock button issues: {failures[:15]}"
+
+
 class TestContentNotEmpty:
     def test_page_content_has_minimum_text(self, parsed_pages):
         """Every page's .page-content div must have at least 20 characters of stripped text."""
