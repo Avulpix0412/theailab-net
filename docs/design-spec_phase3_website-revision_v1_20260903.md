@@ -146,6 +146,17 @@ Per §3.3–3.4: homepage detached row; sticky rail on all 21 interior pages.
 
 - Does not change any course content, dates, or policies.
 - Does not touch the map's orientation, size relative to the page, or its fundamental horizontal-timeline design — that direction was explicitly tried and rejected (Part 1).
-- Does not add the "This Week" card or the map to any page but the homepage — interior pages get "Today in AI" only.
+- Does not add the map itself to any page but the homepage (interior pages have no room for it and no "you are here" ring context) — but see Part 6, the "This Week" card *is* sitewide.
 - Does not invent a second AI-news source or a fallback news source if Hacker News is unreachable — the card simply doesn't render that session (§3.1 step 5).
 - Does not add user accounts, server-side rendering, or a build step — the news fetch is a client-side, unauthenticated, cached `fetch()` call, consistent with the site's static-HTML/no-backend constraint.
+
+---
+
+## Part 6 — Post-Implementation Revision (2026-09-03, same day)
+
+Two corrections made after the first implementation pass and a live review:
+
+1. **"This Week" card is sitewide, not homepage-only.** §3.4 and Part 5 above originally scoped it to the homepage only, on the assumption that it depended on the map's DOM for week titles. This was an assumption made while writing this spec, not something confirmed with the user — and it was wrong. The user's intent was for both rail cards ("Today in AI" and "This Week") to appear on all 22 pages. Fixed by extracting the week-date/title/recess data that `journey-map.js` depended on into a shared `js/course-calendar.js` (`window.CourseCalendar`), so both `journey-map.js` (homepage map ring/label only, now) and a new sitewide `js/this-week-card.js` (populates `#here-card` everywhere) read from one source of truth instead of the map's tooltip text. Interior pages' `.page-rail` now stacks both cards.
+2. **Homepage layout bug: doubled left offset.** The implementation gave `.home-grid`/`.news-row` their own `margin-left: var(--col-left)`, not realizing `.content-wrapper` (their ancestor) already applies that offset to `.page-content`. The duplicate offset, combined with `.home-grid` being a normal-flow block child that shrink-fits to its container rather than a flex root, squeezed the whole two-column area down to `.content-wrapper`'s old 704px cap — visually this showed up as the rail collapsing to ~148px (wrapping "Week 2 of 15" into a vertical sliver) and the detached "Today in AI" row rendering left-aligned above the main column instead of right-aligned above the rail. Fixed by widening `.content-wrapper` itself for the homepage (new `.is-home` modifier, `max-width: calc(800px + 360px + 3.5rem + 2rem)`) and removing the redundant margins from `.home-grid`/`.news-row`, which restored the exact 800/360 column split approved in the mockup.
+
+Lesson for future specs on this site: when a mockup is a standalone HTML file (not wired into the real page template), double-check how its CSS assumptions (margins, containing-block widths) map onto the *actual* nested structure (`.content-wrapper` > `.page-content` > ...) before writing acceptance criteria — a mockup with no ancestor offsets can hide a doubled-offset bug that only appears once the CSS lands in the real template.
