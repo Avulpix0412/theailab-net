@@ -229,6 +229,19 @@ class TestThemeToggle:
                 failures.append(f"{_rel(path)}: theme-init.js does not precede style.css link")
         assert not failures, f"theme-init.js ordering issues: {failures[:15]}"
 
+    def test_all_pages_load_nav_wave_js(self, parsed_pages):
+        """nav-wave.js (dock-style nav magnification) must be present and resolvable on every page."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            script = soup.find("script", src=lambda s: s and s.endswith("js/nav-wave.js"))
+            if not script:
+                failures.append(f"{_rel(path)}: missing js/nav-wave.js")
+                continue
+            target = (path.parent / script["src"]).resolve()
+            if not target.exists():
+                failures.append(f"{_rel(path)}: nav-wave.js src '{script['src']}' does not resolve")
+        assert not failures, f"nav-wave.js issues: {failures[:15]}"
+
     def test_all_pages_load_theme_js(self, parsed_pages):
         """theme.js (button wiring) must be present and resolvable on every page."""
         failures = []

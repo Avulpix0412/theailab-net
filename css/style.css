@@ -193,8 +193,10 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: none;
   padding: 0;
   text-decoration: none;
+  display: inline-block;
+  transform-origin: center bottom;
+  transition: transform 0.12s ease;
 }
-.main-nav li a:hover,
 .main-nav li a.active {
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -429,6 +431,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 13px;
   color: var(--accent-dk);
   margin-top: 0.75rem;
+}
+.map-schedule-link {
+  display: inline-block;
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-lt);
+  margin-top: 0.6rem;
+  text-decoration: none;
+}
+.map-schedule-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .session-meta {
