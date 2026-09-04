@@ -48,8 +48,15 @@
     });
   }
 
+  var BG_LIGHT = "#faf7f2";
+  var BG_DARK = "#1f1a15";
+
+  function isDark() {
+    return document.documentElement.getAttribute("data-theme") === "dark";
+  }
+
   function currentPalette() {
-    return document.documentElement.getAttribute("data-theme") === "dark" ? DARK_PALETTE : LIGHT_PALETTE;
+    return isDark() ? DARK_PALETTE : LIGHT_PALETTE;
   }
 
   // Smoothly interpolate around the palette (wrapping) at position `p`
@@ -69,7 +76,15 @@
   var targetX = 0, targetY = 0, curX = 0, curY = 0, rotation = 0;
 
   function draw(t) {
-    ctx.clearRect(0, 0, W, H);
+    // Solid fill matching the site's own --bg exactly, not clearRect — a
+    // fully transparent canvas lets the browser's own default page-background
+    // color-scheme show through in the gaps between rays (pure white in
+    // light mode, which reads as flatter/whiter than the site's actual warm
+    // off-white; near-black in dark mode, which happens to look fine by
+    // coincidence). This keeps the base color exactly right everywhere
+    // without a gradient or edge — no seam, just always the correct color.
+    ctx.fillStyle = isDark() ? BG_DARK : BG_LIGHT;
+    ctx.fillRect(0, 0, W, H);
     var cx = W / 2 + curX;
     var cy = H / 2 + curY;
     var palette = currentPalette();
