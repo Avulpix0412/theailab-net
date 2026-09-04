@@ -77,7 +77,7 @@ body {
    own opaque var(--bg), which (being ordinary in-flow content) sits above
    the canvas in stacking order and fully blocks its tint — leaving a hard,
    visible seam exactly at the header/content and content/footer edges. */
-body.has-bg-flourish { background: transparent; }
+body.has-bg-flourish { background: transparent; overscroll-behavior-y: none; }
 body.has-bg-flourish .site-header,
 body.has-bg-flourish .site-footer { background: transparent; }
 .bg-flourish {
