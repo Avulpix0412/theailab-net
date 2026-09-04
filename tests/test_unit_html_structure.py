@@ -314,6 +314,26 @@ class TestWidgetRail:
                     failures.append(f"{_rel(path)}: #{card_id} not hidden by default")
         assert not failures, f"Interior page rail issues: {failures[:15]}"
 
+    def test_bg_flourish_is_homepage_only(self, parsed_pages):
+        """The decorative canvas background must exist only on index.html, resolvable, not elsewhere."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            canvas = soup.select_one("#bg-flourish")
+            script = soup.find("script", src=lambda s: s and s.endswith("js/hero-flourish.js"))
+            if path.name == "index.html":
+                if not canvas:
+                    failures.append(f"{_rel(path)}: missing #bg-flourish canvas")
+                if not script:
+                    failures.append(f"{_rel(path)}: missing js/hero-flourish.js")
+                elif not (path.parent / script["src"]).resolve().exists():
+                    failures.append(f"{_rel(path)}: hero-flourish.js src does not resolve")
+            else:
+                if canvas:
+                    failures.append(f"{_rel(path)}: unexpected #bg-flourish canvas")
+                if script:
+                    failures.append(f"{_rel(path)}: unexpected js/hero-flourish.js")
+        assert not failures, f"bg-flourish scope issues: {failures[:15]}"
+
     def test_all_pages_load_course_calendar_and_this_week_card_js(self, parsed_pages):
         """course-calendar.js and this-week-card.js must be present and resolvable on every page."""
         failures = []

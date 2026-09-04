@@ -70,6 +70,24 @@ body {
   background: var(--bg);
 }
 
+/* Homepage-only decorative background flourish (P3-5). The canvas paints
+   the page's visible backdrop, so the homepage body is transparent here —
+   every other page keeps the normal var(--bg) fill. */
+body.has-bg-flourish { background: transparent; }
+.bg-flourish {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  animation: flourish-hue 90s linear infinite;
+}
+@keyframes flourish-hue {
+  to { filter: hue-rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-flourish { animation: none; }
+}
+
 a {
   color: var(--accent);
   text-decoration: underline;
