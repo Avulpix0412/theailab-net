@@ -91,6 +91,10 @@ body.has-bg-flourish { background: transparent; overscroll-behavior-y: none; }
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  /* Softens the razor-thin canvas lines into more of a glow — crisp 1px
+     vector lines next to smooth flat cards is what was reading as two
+     mismatched textures ("sharp" vs "smooth"), on top of the shadow above. */
+  filter: blur(1.1px);
 }
 
 a {
