@@ -4,6 +4,16 @@
    Structural layout inherited from the original Twenty Nineteen-faithful
    port (narrow reading column, asymmetric left gutter). */
 
+/* Smooth cross-document page transitions (P3-6). Native browser feature —
+   no JS, no SPA routing. Since this stylesheet is shared by every page,
+   the rule is present on both the outgoing and incoming document for any
+   in-site navigation, which is what the spec requires for the transition
+   to fire. Browsers without support (older Safari/Firefox) just navigate
+   normally — this is a pure progressive enhancement. */
+@view-transition {
+  navigation: auto;
+}
+
 :root {
   --bg: #faf7f2;
   --surface: #ffffff;
