@@ -25,7 +25,7 @@
   var WEEK_TITLES = [
     "Course Introduction",
     "Shell Fundamentals and Dotfiles",
-    "Anatomy of an AI Coding Agent",
+    "Dive into Claude Code CLI",
     "CLAUDE.md and Slash Commands",
     "Agent Skills, Subagents, and MCP",
     "Hooks Architecture and Guardrails",
