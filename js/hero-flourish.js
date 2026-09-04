@@ -48,8 +48,15 @@
     });
   }
 
+  var BG_LIGHT = "#faf7f2";
+  var BG_DARK = "#1f1a15";
+
+  function isDark() {
+    return document.documentElement.getAttribute("data-theme") === "dark";
+  }
+
   function currentPalette() {
-    return document.documentElement.getAttribute("data-theme") === "dark" ? DARK_PALETTE : LIGHT_PALETTE;
+    return isDark() ? DARK_PALETTE : LIGHT_PALETTE;
   }
 
   // Smoothly interpolate around the palette (wrapping) at position `p`
@@ -69,15 +76,28 @@
   var targetX = 0, targetY = 0, curX = 0, curY = 0, rotation = 0;
 
   function draw(t) {
-    ctx.clearRect(0, 0, W, H);
+    // Solid base fill first, matching the site's own --bg exactly — the
+    // wash below always fades to "transparent," and without this base the
+    // faded edge reveals the browser's plain white default instead of the
+    // theme's actual background, creating a visible seam wherever the wash
+    // doesn't reach (screen corners, or any viewport bigger than tested).
+    ctx.fillStyle = isDark() ? BG_DARK : BG_LIGHT;
+    ctx.fillRect(0, 0, W, H);
+
     var cx = W / 2 + curX;
     var cy = H / 2 + curY;
     var palette = currentPalette();
 
-    // Broad ambient wash first — ties the whole viewport together with a
-    // soft tint even where no individual ray reaches, so the effect reads
-    // as one atmosphere behind the page rather than a cluster of lines
-    // poking out from behind the cards.
+    // Flat, uniform ambient tint across the *entire* canvas first — no
+    // gradient, no edge, so there is nowhere for a visible seam to form no
+    // matter how large the viewport is. The radial wash below layers a
+    // stronger highlight near the burst on top of this even base, instead
+    // of being the sole source of color (which always has to fade to
+    // nothing *somewhere*, and that "somewhere" reads as a hard line).
+    ctx.globalAlpha = 0.05;
+    ctx.fillStyle = paletteColor(palette, t * 0.05);
+    ctx.fillRect(0, 0, W, H);
+
     var washRadius = Math.max(W, H) * 0.85;
     var wash = ctx.createRadialGradient(cx, cy, 0, cx, cy, washRadius);
     wash.addColorStop(0, paletteColor(palette, t * 0.05));
