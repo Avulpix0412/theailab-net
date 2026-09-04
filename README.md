@@ -39,12 +39,18 @@ shares one stylesheet and a common header/nav/hero/footer skeleton.
 
 ## Local Development
 
-Serve the site locally with Python's built-in HTTP server:
+Serve the site locally with the bundled no-cache dev server (recommended —
+plain `python3 -m http.server` sends no `Cache-Control` header at all, which
+lets the browser silently keep serving a stale `css/style.css` or `js/*.js`
+after an edit, even on a normal refresh):
 
 ```bash
-python3 -m http.server 8080
+python3 scripts/serve.py 8080
 # then open http://localhost:8080/
 ```
+
+Plain `python3 -m http.server 8080` still works if you don't mind
+hard-refreshing (Cmd/Ctrl+Shift+R) after every change.
 
 No install step is required to view the site — only the test suite has
 dependencies.
