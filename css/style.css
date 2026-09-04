@@ -35,7 +35,7 @@
   --mww: 1168px;
   --col-left: calc(8.33vw + 28px);  /* left offset of the content column */
   --card-shadow: 0 24px 60px -22px rgba(42, 38, 34, 0.18), 0 3px 16px rgba(42, 38, 34, 0.05);
-  --card-glass-bg: rgba(255, 255, 255, 0.72);
+  --card-glass-bg: rgba(255, 255, 255, 0.42);
   --card-glass-border: rgba(255, 255, 255, 0.5);
   color-scheme: light;
 }
@@ -63,7 +63,7 @@
   --mp4: #b6a3d9;
   --final: #7ec3c7;
   --card-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.55), 0 0 46px rgba(226, 133, 63, 0.07);
-  --card-glass-bg: rgba(36, 31, 25, 0.68);
+  --card-glass-bg: rgba(36, 31, 25, 0.4);
   --card-glass-border: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
