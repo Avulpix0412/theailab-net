@@ -91,6 +91,67 @@ body.has-bg-flourish { background: transparent; overscroll-behavior-y: none; }
   pointer-events: none;
 }
 
+/* Homepage-only full-viewport splash (P3-7), sitting above the flourish
+   canvas and before the normal header/nav/content — first thing a visitor
+   sees is the animated backdrop plus the course name, with a scroll cue
+   pointing at the real content just below. Text is reused verbatim from
+   the header/tagline already on this page. */
+.hero-splash {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 2rem 2rem var(--col-left);
+}
+.hero-splash-kicker {
+  font-family: var(--fb);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lt);
+  margin: 0 0 1rem;
+}
+.hero-splash-title {
+  font-family: var(--fdisplay);
+  font-weight: 600;
+  font-size: 76px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text);
+}
+.hero-splash-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: var(--col-left);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-lt);
+  text-decoration: none;
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: hero-scroll-bounce 1.8s ease-in-out infinite;
+}
+.hero-splash-scroll:hover { color: var(--accent); }
+@keyframes hero-scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-splash-scroll { animation: none; }
+}
+@media (max-width: 768px) {
+  .hero-splash-title { font-size: 44px; }
+}
+
 a {
   color: var(--accent);
   text-decoration: underline;

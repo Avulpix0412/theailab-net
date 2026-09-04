@@ -334,6 +334,20 @@ class TestWidgetRail:
                     failures.append(f"{_rel(path)}: unexpected js/hero-flourish.js")
         assert not failures, f"bg-flourish scope issues: {failures[:15]}"
 
+    def test_hero_splash_is_homepage_only(self, parsed_pages):
+        """The full-viewport splash (title + scroll cue) must exist only on index.html."""
+        failures = []
+        for path, _, soup in parsed_pages:
+            splash = soup.select_one(".hero-splash")
+            if path.name == "index.html":
+                if not splash:
+                    failures.append(f"{_rel(path)}: missing .hero-splash")
+                elif not splash.select_one(".hero-splash-scroll[href='#main']"):
+                    failures.append(f"{_rel(path)}: .hero-splash missing scroll-to-#main link")
+            elif splash:
+                failures.append(f"{_rel(path)}: unexpected .hero-splash")
+        assert not failures, f"hero-splash scope issues: {failures[:15]}"
+
     def test_all_pages_load_course_calendar_and_this_week_card_js(self, parsed_pages):
         """course-calendar.js and this-week-card.js must be present and resolvable on every page."""
         failures = []
