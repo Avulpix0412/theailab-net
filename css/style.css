@@ -79,13 +79,6 @@ body.has-bg-flourish { background: transparent; }
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  animation: flourish-hue 90s linear infinite;
-}
-@keyframes flourish-hue {
-  to { filter: hue-rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bg-flourish { animation: none; }
 }
 
 a {
